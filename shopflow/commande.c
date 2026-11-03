@@ -3,6 +3,7 @@
 #include <string.h>
 #include "commande.h"
 #include "types.h"
+#include "utils.h"
 
 void calculerCommande(Commande *cmd) {
     cmd->montantBrutHT = 0.0f;
@@ -102,7 +103,8 @@ void creerCommande(Boutique *b) {
     clientTrouve->nbCommandes++;
 
     printf("[OK] Commande n°%d créée avec succès pour le client %s %s !\n", 
-           nouvelleCmd.numero, clientTrouve->prenom, clientTrouve->nom);
+           nouvelleCmd.numero, clientTrouve->prenom, clientTrouve->nom);  
+}
 
 void ajouterLigneCommande(Commande *cmd, Boutique *b) {
     if (strcmp(cmd->statut, "EN_COURS") != 0) {
@@ -144,9 +146,10 @@ void ajouterLigneCommande(Commande *cmd, Boutique *b) {
 
     if (indexExistant != -1) {
 
-        if (cmd->lignes[indexExistant].quantite + qte > p->quantiteStock) {
+    if (cmd->lignes[indexExistant].quantite + qte > p->quantiteStock) {
             printf("[X] Stock insuffisant pour le cumul de cette quantité.\n");
             return;
+    
         }
         cmd->lignes[indexExistant].quantite += qte;
     } else {
@@ -275,7 +278,7 @@ void afficherDetailCommande(const Commande *cmd) {
     
     printf("----------------------------------------\n");
     printf("Montant Brut HT : %.2f €\n", cmd->montantBrutHT);
-    printf("Remise (%.0f%%)    : -%.2f €\n", cmd->tauxRemise, cmd->montantRemise);
+    printf("TVA (20%%)       : %.2f €\n", cmd->montantTVA);
     printf("Montant HT      : %.2f €\n", cmd->montantHT);
     printf("TVA (20%)       : %.2f €\n", cmd->montantTVA);
     printf("Frais de port   : %.2f €\n", cmd->fraisPort);
