@@ -1,0 +1,12 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+OBJ = main.o utils.o produit.o client.o commande.o initialisation.o statistique.o
+
+shopflow: $(OBJ)
+	$(CC) $(CFLAGS) -o shopflow $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f *.o shopflow
